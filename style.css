@@ -1,11 +1,19 @@
+/* Variables */
 :root {
     --navy-blue: #212e6e;
     --white: #ffffff;
     --accent: #edf5fa;
     --purple: rgb(158, 158, 196);
     --green: #00c853;
+    --border-light: rgb(205, 212, 244);
+    --shadow: rgba(0, 0, 0, 0.1);
+    --hover-green: #5ce396;
+    --button-hover: #29dc76;
+    --border-dark: #000000;
+    --text-gray: #808080;
 }
 
+/* Base Styles */
 body {
     margin: 0;
     padding: 0;
@@ -14,28 +22,31 @@ body {
     color: var(--navy-blue);
 }
 
-.container{
+/* Layout */
+.container {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
 }
 
-form{
-    font-family: 'Roboto', sans-serif;
-    text-align: center;
+/* Form Styles */
+form {
     display: flex;
     flex-direction: column;
     gap: 40px;
-    padding: 50px;
-    border: 3px solid rgb(205, 212, 244);
-    border-radius: 30px;
     width: 400px;
+    padding: 50px;
+    font-family: 'Roboto', sans-serif;
+    text-align: center;
     background-color: var(--white);
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    border: 3px solid var(--border-light);
+    border-radius: 30px;
+    box-shadow: 0 0 20px var(--shadow);
 }
 
-.currency-input{
+/* Currency Input Sections */
+.currency-input {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -43,94 +54,97 @@ form{
     gap: 50px;
 }
 
-.currency-input:hover{
+.currency-input:hover {
     cursor: pointer;
 }
 
-.from-currency, .to-currency{
+.from-currency,
+.to-currency {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    border: 1px solid var(--purple);
-    gap: 10px;
-    border-radius: 10px;
-    flex-grow: 2;
     position: relative;
+    gap: 10px;
+    flex-grow: 2;
     background-color: var(--white);
+    border: 1px solid var(--purple);
+    border-radius: 10px;
     transition: all 0.3s ease;
 }
 
-.from-currency select, .to-currency select {
-    border-left: 1px solid black;
+.from-currency select,
+.to-currency select {
     padding-left: 10px;
     background-color: transparent;
+    border-left: 1px solid var(--border-dark);
 }
 
-img{
+/* Form Elements */
+img {
     width: 50px;
 }
 
-select{
-    height:40px;
+select {
+    height: 40px;
     border: none;
 }
 
-input{
-    height: 50px;
-    font-size: 1rem;
-    border-radius: 5px;
-    padding: 0 10px;
-    background-color: var(--accent);
-    border: 1px solid var(--purple);
-}
-
-button{
-    height: 50px;
-    border: none;
-    border-radius: 20px;
-    background-color: var(--green);
-    color: var(--white);
-    font-weight: bold;
-    transition: all 0.3s ease;
-}
-
-button:hover, .to-currency:hover, .from-currency:hover{
-    cursor: pointer;
-    transform: translateY(-2px);
-    background-color: #5ce396;
-    
-}
-
-button:hover{
-    cursor: pointer;
-    transform: translateY(-2px);
-    background-color: #29dc76;
-}
-
-select:hover{
+select:hover {
     cursor: pointer;
     background-color: transparent;
 }
 
-#exchange-rate {
-    font-size: larger;
-    border: 1px solid var(--purple);
+input {
     height: 50px;
+    padding: 0 10px;
+    font-size: 1rem;
+    background-color: var(--accent);
+    border: 1px solid var(--purple);
+    border-radius: 5px;
+}
+
+button {
+    height: 50px;
+    color: var(--white);
+    font-weight: bold;
+    background-color: var(--green);
+    border: none;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+/* Hover States */
+button:hover,
+.to-currency:hover,
+.from-currency:hover {
+    cursor: pointer;
+    transform: translateY(-2px);
+}
+
+.to-currency:hover,
+.from-currency:hover {
+    background-color: var(--hover-green);
+}
+
+button:hover {
+    background-color: var(--button-hover);
+}
+
+/* Exchange Rate Display */
+#exchange-rate {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 5px;
-    background-color: var(--accent);
-    color: var(--navy-blue);
+    height: 50px;
+    font-size: larger;
     font-weight: bold;
+    color: var(--navy-blue);
+    background-color: var(--accent);
+    border: 1px solid var(--purple);
+    border-radius: 5px;
     transform: scale(1);
     transition: all 0.1s ease;
     opacity: 1;
-}
-
-.date{
-    font-size: small;
-    color: gray;
 }
 
 label#exchange-rate:empty {
@@ -144,11 +158,17 @@ button:active + label {
     color: var(--white);
 }
 
-svg{
+/* Additional Elements */
+.date {
+    font-size: small;
+    color: var(--text-gray);
+}
+
+svg {
     transition: all 0.3s ease;
 }
 
-svg:hover{
+svg:hover {
     cursor: pointer;
     transform: translateY(-2px);
 }

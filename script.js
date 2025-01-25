@@ -4,61 +4,60 @@ const dropdowns = document.querySelectorAll("select");
 const amount = document.querySelector("#input-amount");
 const convert = document.querySelector("#convert-btn")
 
-for (let select of dropdowns) {
-    for (currCode in countrylist) {
+for (const select of dropdowns) {
+    for (const currCode in countrylist) {
         let newOption = document.createElement("option");
         newOption.innerText = currCode;
         newOption.value = currCode;
 
         if (select.id === "from-currency" && currCode === "USD") {
             newOption.selected = "selected";
-        }
-        
-        else if (select.id === "to-currency" && currCode === "INR") {
+        } else if (select.id === "to-currency" && currCode === "INR") {
             newOption.selected = "selected";
         }
 
         select.append(newOption);
     }
 
-    select.addEventListener("change",(evt)=>{
+    select.addEventListener("change", (evt) => {
         updateFlag(evt.target);
     });
 }
 
-const updateFlag = (select) =>{
-    const currency_code = select.value;
-    const country_code = countrylist[currency_code];
-    const image = select.previousElementSibling
-    image.src=`https://flagsapi.com/${country_code}/flat/64.png`;
-}
+const updateFlag = (select) => {
+    const currencyCode = select.value;
+    const countryCode = countrylist[currencyCode];
+    const flagImage = select.previousElementSibling;
+    flagImage.src = `https://flagsapi.com/${countryCode}/flat/64.png`;
+};
 
-const updateRate = async() =>{
-    let amtVal = amount.value;
-    if (amtVal === "" || amtVal < 1) {
-        amtVal = 1;
-        amount.value = "1";
+const updateRate = async () => {
+    try {
+        let amountValue = amount.value;
+        if (amountValue === "" || amountValue < 1) {
+            amountValue = 1;
+            amount.value = "1";
+        }
+
+        const fromCurrency = document.querySelector("#from-currency").value.toLowerCase();
+        const toCurrency = document.querySelector("#to-currency").value.toLowerCase();
+
+        const response = await fetch(`${BASE_URL}/${fromCurrency}.json`);
+        const data = await response.json();
+        const rate = amountValue * data[fromCurrency][toCurrency];
+
+        // Update date display
+        const dateDisplay = document.querySelector(".date");
+        const [year, month, day] = data.date.split("-");
+        dateDisplay.innerText = `Last updated on ${day} ${monthlist[month-1]} ${year}`;
+
+        // Update exchange rate display
+        const exchangeRate = document.querySelector("#exchange-rate");
+        exchangeRate.innerText = `${amountValue} ${fromCurrency.toUpperCase()} = ${rate} ${toCurrency.toUpperCase()}`;
+    } catch (error) {
+        console.error("Error fetching exchange rate:", error);
     }
-    console.log(amtVal);
-    fromcurr = document.querySelector("#from-currency").value.toLowerCase();
-    tocurr = document.querySelector("#to-currency").value.toLowerCase();
-
-    const URL = `${BASE_URL}/${fromcurr}.json`
-    const response = await fetch(URL);
-    const data = await response.json();
-    const rate = amtVal *data[fromcurr][tocurr];
-
-    const date = document.querySelector(".date");
-    const date_ = data.date;
-    day = date_.split("-")[2];
-    month = date_.split("-")[1];
-    year = date_.split("-")[0];
-    console.log(day,month,year);
-    date.innerText = `Last updated on ${day} ${monthlist[month-1]} ${year}`;
-
-    const exchange_rate = document.querySelector("#exchange-rate");
-    exchange_rate.innerText = `${amtVal} ${fromcurr.toUpperCase()} = ${rate} ${tocurr.toUpperCase()}`
-}
+};
 
 convert.addEventListener("click", (evt)=>{
     evt.preventDefault();
@@ -69,29 +68,28 @@ window.addEventListener("load", ()=>{
     updateRate();
 });
 
-// Add rotation functionality for the swap icon
+// Swap functionality
 const swapIcon = document.querySelector("svg");
 let isRotated = false;
 
-swapIcon.addEventListener("click", () => {
-    if (isRotated) {
-        swapIcon.style.transform = "rotate(0deg)";
-        isRotated = false;
-        fromcurr = document.querySelector("#from-currency").value;
-        tocurr = document.querySelector("#to-currency").value;
-        document.querySelector("#from-currency").value = tocurr;
-        document.querySelector("#to-currency").value = fromcurr;
-        updateFlag(document.querySelector("#from-currency"));
-        updateFlag(document.querySelector("#to-currency"));
-    } else {
-        swapIcon.style.transform = "rotate(180deg)";
-        isRotated = true;
-        fromcurr = document.querySelector("#from-currency").value;
-        tocurr = document.querySelector("#to-currency").value;
-        document.querySelector("#from-currency").value = tocurr;
-        document.querySelector("#to-currency").value = fromcurr;
-        updateFlag(document.querySelector("#from-currency"));
-        updateFlag(document.querySelector("#to-currency"));
-    }
-});
+const swapCurrencies = () => {
+    // Toggle rotation
+    isRotated = !isRotated;
+    swapIcon.style.transform = `rotate(${isRotated ? 180 : 0}deg)`;
+
+    // Swap currency values
+    const fromCurrencySelect = document.querySelector("#from-currency");
+    const toCurrencySelect = document.querySelector("#to-currency");
+    const tempValue = fromCurrencySelect.value;
+    
+    fromCurrencySelect.value = toCurrencySelect.value;
+    toCurrencySelect.value = tempValue;
+
+    // Update flags
+    updateFlag(fromCurrencySelect);
+    updateFlag(toCurrencySelect);
+    updateRate();
+};
+
+swapIcon.addEventListener("click", swapCurrencies);
 
