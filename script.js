@@ -34,11 +34,10 @@ const updateFlag = (select) => {
 const updateRate = async () => {
     try {
         let amountValue = amount.value;
-        if (amountValue === "" || amountValue < 1) {
+        if (amountValue === "" || amountValue < 1 || isNaN(amountValue)) {
             amountValue = 1;
             amount.value = "1";
         }
-
         const fromCurrency = document.querySelector("#from-currency").value.toLowerCase();
         const toCurrency = document.querySelector("#to-currency").value.toLowerCase();
 
