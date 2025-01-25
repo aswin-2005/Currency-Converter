@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Currncy Converter</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <form id="currency-converter">
+        <h1>Currency Converter</h1>
+        <input type="text" id="input-amount" placeholder="Enter Amount" value="1"/>
+        
+        
+        <div class="currency-input">
+
+          <div class="from-currency">
+            <img src="https://flagsapi.com/US/flat/64.png" alt="">
+            <select id="from-currency"></select>
+          </div>
+
+
+            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" >
+                <path stroke="currentColor"stroke-linecap="round"stroke-linejoin="round"stroke-width="2"d="M4 16h13M4 16l4-4m-4 4 4 4M20 8H7m13 0-4 4m4-4-4-4"/>
+            </svg>
+
+          <div class="to-currency">
+            <img src="https://flagsapi.com/IN/flat/64.png" alt="">
+            <select id="to-currency"></select>
+
+          </div>
+            
+        </div>
+        
+        
+        <button id="convert-btn">Convert</button>
+        <label id="exchange-rate"></label>
+        <label class="date"></label>
+      </form>
+    </div>
+    <script src="monthlist.js"></script>
+    <script src="countrylist.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
